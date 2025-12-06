@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Form, useActionData, useNavigation } from "react-router-dom";
+import { useNavigation } from "react-router-dom";
 import {
   FaFacebookF,
   FaTwitter,
@@ -9,30 +9,28 @@ import {
   FaYoutube,
   FaGithub,
 } from "react-icons/fa";
+import emailjs from '@emailjs/browser';
+import toast from "react-hot-toast";
 
 const socialLinks = [
-  { icon: FaLinkedinIn, url: "https://www.linkedin.com/in/md-mahmudul-hasan-85ba92366" },
+  {
+    icon: FaLinkedinIn,
+    url: "https://www.linkedin.com/in/md-mahmudul-hasan-85ba92366",
+  },
   { icon: FaGithub, url: "https://github.com/md-mahmudu1-hasan" },
-  { icon: FaFacebookF, url: "https://www.facebook.com/md.mahmudul.hasan.694602" },
+  {
+    icon: FaFacebookF,
+    url: "https://www.facebook.com/md.mahmudul.hasan.694602",
+  },
   { icon: FaTwitter, url: "https://x.com/MDMahmudul93870" },
   { icon: FaYoutube, url: "https://www.youtube.com/@CodeFairbyMahmudul" },
 ];
 
-export async function contactAction({ request }) {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  return {
-    ok: true,
-    submittedAt: new Date().toISOString(),
-    data,
-  };
-}
-
 function Contact() {
-  const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const mainRef = useRef(null);
+  const form = useRef();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -87,6 +85,24 @@ function Contact() {
     return () => ctx.revert();
   }, []);
 
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("service_ru1dlxa", "template_nuhqa8r", form.current, {
+        publicKey: "E4JIp-bvc5Qz9nlED",
+      })
+      .then(
+        () => {
+          toast.success("Message sent successfully");
+          e.target.reset();
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
+
   return (
     <div className="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col">
       <main
@@ -137,14 +153,7 @@ function Contact() {
                   </span>
                 </p>
               </div>
-
-              {actionData?.ok && (
-                <div className="mb-4 rounded border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-                  Message sent successfully!
-                </div>
-              )}
-
-              <Form method="post" className="space-y-4">
+              <form ref={form} onSubmit={sendEmail} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="sr-only">
@@ -154,7 +163,7 @@ function Contact() {
                       id="name"
                       name="name"
                       type="text"
-                      placeholder="Name"
+                      placeholder="Your Name"
                       className="w-full bg-gray-200 dark:bg-gray-800 border-transparent focus:ring-primary focus:border-primary rounded placeholder-gray-500 dark:placeholder-gray-400 text-gray-800 dark:text-white"
                       required
                     />
@@ -167,7 +176,7 @@ function Contact() {
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="Email"
+                      placeholder="Your Email"
                       className="w-full bg-gray-200 dark:bg-gray-800 border-transparent focus:ring-primary focus:border-primary rounded placeholder-gray-500 dark:placeholder-gray-400 text-gray-800 dark:text-white"
                       required
                     />
@@ -207,34 +216,34 @@ function Contact() {
                     {isSubmitting ? "Sending…" : "Send Massage"}
                   </button>
                 </div>
-              </Form>
+              </form>
             </div>
           </div>
         </div>
       </main>
 
-<footer className="bg-primary/90 dark:bg-primary-dark py-8">
-      <div className="container mx-auto px-4 sm:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
-          <p className="text-sm text-gray-100">
-            &copy; 2024 All Rights Reserved | Md Mahmudul Hasan
-          </p>
-          <div className="flex items-center space-x-4">
-            {socialLinks.map(({ icon: Icon, url }, idx) => (
-              <a
-                key={idx}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg text-gray-100"
-              >
-                <Icon className="h-5 w-5" />
-              </a>
-            ))}
+      <footer className="bg-primary/90 dark:bg-primary-dark py-8">
+        <div className="container mx-auto px-4 sm:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
+            <p className="text-sm text-gray-100">
+              &copy; 2024 All Rights Reserved | Md Mahmudul Hasan
+            </p>
+            <div className="flex items-center space-x-4">
+              {socialLinks.map(({ icon: Icon, url }, idx) => (
+                <a
+                  key={idx}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg text-gray-100"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
     </div>
   );
 }
