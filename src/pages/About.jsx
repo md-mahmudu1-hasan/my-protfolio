@@ -93,7 +93,7 @@ function About() {
               Md Mahmudul Hasan&apos;s Details
             </h2>
             <p className="text-gray-300 leading-relaxed mb-8">
-              I am a MERN Focused Full Stack Developer who prefer learing first . Because I am not an AI.I am that one who used that.
+              I am a student of CSE at Rangpur Polytechnic Institute , Bangladesh. I do MERN Focused Full Stack Development. I prefer learing first . Because I am not an AI.I am that one who used that
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
               <div className="flex items-center bg-gray-200/10 dark:bg-gray-800/50 p-4 rounded-lg">
@@ -128,12 +128,14 @@ function About() {
               </div>
             </div>
             <div className="mt-auto">
-              <button className="inline-flex items-center justify-center bg-primary text-gray-900 font-semibold px-6 py-3 rounded-lg hover:brightness-105 transition-all duration-300 shadow-md">
-                <span className="material-icons-outlined mr-2 text-2xl">
-                  download
-                </span>
-                Download CV
-              </button>
+            <a
+              href="/MdMahmudulHasanCV.pdf"
+              download="MdMahmudulHasanCV.pdf"
+              className="home-hero-cta mt-10 bg-primary text-[#0b2e31] font-semibold py-3 px-6 rounded-lg w-fit flex items-center space-x-2 hover:opacity-90 transition-opacity"
+            >
+              <span className="material-icons-outlined text-xl">download</span>
+              <span>Download CV</span>
+            </a>
             </div>
           </div>
         </div>

@@ -43,7 +43,7 @@ function TypingText({ text, speed = 120, pause = 1200 }) {
 
 function Home() {
   const rootRef = useRef(null);
-
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -77,49 +77,66 @@ function Home() {
     return () => ctx.revert();
   }, []);
 
+  const links = [
+    { label: "About me", href: "#about" },
+    { label: "Service", href: "#services" },
+    { label: "Projects", href: "#portfolio" },
+    { label: "Skills", href: "#skills" },
+    { label: "Contact", href: "#contact" },
+  ];
+
   return (
     <div ref={rootRef} className="min-h-screen flex flex-col">
       <header className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo / Home Link */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          {/* Logo */}
           <a href="/" className="text-xl font-bold text-primary">
             Home
           </a>
 
-          {/* Navigation Links */}
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <a
-              href="#about"
-              className="text-primary hover:text-white transition-colors"
-            >
-              About me
-            </a>
-            <a
-              href="#services"
-              className="text-primary hover:text-white transition-colors"
-            >
-              Service
-            </a>
-            <a
-              href="#portfolio"
-              className="text-primary hover:text-white transition-colors"
-            >
-              Projects
-            </a>
-            <a
-              href="#skills"
-              className="text-primary hover:text-white transition-colors"
-            >
-              Skills
-            </a>
-            <a
-              href="#contact"
-              className="text-primary hover:text-white transition-colors"
-            >
-              Contact
-            </a>
+          {/* Desktop Links */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+            {links.map((link, idx) => (
+              <a
+                key={idx}
+                href={link.href}
+                className="text-primary hover:text-white transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-primary focus:outline-none"
+            >
+              <span className="material-icons-outlined">
+                {isOpen ? "close" : "menu"}
+              </span>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden bg-background-light dark:bg-background-dark border-t border-white/10">
+            <div className="px-4 py-2 flex flex-col gap-4">
+              {links.map((link, idx) => (
+                <a
+                  key={idx}
+                  href={link.href}
+                  className="text-primary hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)} // click korle menu close hobe
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
       <main className="flex-grow grid grid-cols-12 gap-0">
         <div className="col-span-12 lg:col-span-4 bg-background-light dark:bg-background-dark flex flex-col justify-between p-8 md:p-12">
@@ -139,10 +156,14 @@ function Home() {
             <p className="home-hero-subtitle mt-2 text-lg text-[#e0e0e0]">
               MERN Stack Developer
             </p>
-            <button className="home-hero-cta mt-10 bg-primary text-[#0b2e31] font-semibold py-3 px-6 rounded-lg w-fit flex items-center space-x-2 hover:opacity-90 transition-opacity">
+            <a
+              href="/MdMahmudulHasanCV.pdf"
+              download="MdMahmudulHasanCV.pdf"
+              className="home-hero-cta mt-10 bg-primary text-[#0b2e31] font-semibold py-3 px-6 rounded-lg w-fit flex items-center space-x-2 hover:opacity-90 transition-opacity"
+            >
               <span className="material-icons-outlined text-xl">download</span>
               <span>Download CV</span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -176,7 +197,7 @@ function Home() {
       </main>
       <footer className="bg-primary py-6 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
+          {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <img
                 key={i}
@@ -194,7 +215,7 @@ function Home() {
                 }
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </footer>
       <section id="about">
