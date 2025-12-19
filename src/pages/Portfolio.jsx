@@ -32,7 +32,7 @@ export function portfolioLoader() {
         "A modern app listing platform where users can browse apps with pagination, sort results, and filter using search. The platform allows users to explore apps efficiently with a clean UI, dynamic data handling, and smooth user experience.",
       image:
         "https://i.ibb.co.com/nsD13RqX/Screenshot-2025-12-06-135705.png",
-      liveDemo: "https://brilliant-cendol-9de7b2.netlify.app/",
+      liveDemo: "https://web-apps-market.netlify.app/",
     },
     {
       id: "product-hub",
