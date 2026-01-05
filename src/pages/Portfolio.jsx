@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Social from "./Social";
 
 export function portfolioLoader() {
   return [
@@ -11,9 +10,8 @@ export function portfolioLoader() {
       category: "MERN Stack Project",
       description:
         "Users can create, track, and manage daily habits. Add habits with category, reminder time, and optional image upload. Includes My Habits table with update, delete, and mark-complete options, plus public habits browsing with search and filters.",
-      image:
-        "https://i.ibb.co.com/23Mwq73D/Screenshot-2025-11-19-152629.png",
-      liveDemo: "https://habit-tracker-009.netlify.app/", 
+      image: "https://i.ibb.co.com/23Mwq73D/Screenshot-2025-11-19-152629.png",
+      liveDemo: "https://habit-tracker-009.netlify.app/",
     },
     {
       id: "talent-trade",
@@ -22,8 +20,7 @@ export function portfolioLoader() {
       description:
         "A modern skill-sharing platform where users can offer their expertise, learn new skills, and connect with others. Features include Firebase authentication, responsive UI, protected routes, profile tooltips, toast notifications, Swiper animations, AOS effects, and a clean design built with Tailwind & Material Tailwind.",
       liveDemo: "https://talent-trade.netlify.app/",
-      image:
-        "https://i.ibb.co.com/gZhQ3dnr/Screenshot-2025-11-18-183832.png",
+      image: "https://i.ibb.co.com/gZhQ3dnr/Screenshot-2025-11-18-183832.png",
     },
     {
       id: "app-store",
@@ -31,8 +28,7 @@ export function portfolioLoader() {
       category: "React Project",
       description:
         "A modern app listing platform where users can browse apps with pagination, sort results, and filter using search. The platform allows users to explore apps efficiently with a clean UI, dynamic data handling, and smooth user experience.",
-      image:
-        "https://i.ibb.co.com/nsD13RqX/Screenshot-2025-12-06-135705.png",
+      image: "https://i.ibb.co.com/nsD13RqX/Screenshot-2025-12-06-135705.png",
       liveDemo: "https://web-apps-market.netlify.app/",
     },
     {
@@ -41,8 +37,7 @@ export function portfolioLoader() {
       category: "Next.js Project",
       description:
         "Product Hub is a product-focused web application built with Next.js and Tailwind CSS. Users can add, view, and manage products with features like protected routes, client-side authentication, and a clean responsive UI. Products include title, descriptions, price, and optional image uploads, with table/grid view for easy management.",
-      image:
-        "https://i.ibb.co.com/yc3BhK8z/Screenshot-2025-12-06-135804.png",
+      image: "https://i.ibb.co.com/yc3BhK8z/Screenshot-2025-12-06-135804.png",
       liveDemo: "https://product-hub-nu.vercel.app/",
     },
   ];
@@ -146,47 +141,75 @@ export function PortfolioSection({ projects }) {
             </div>
           </div>
 
-
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {projects.map((project, index) => (
-              <div
+              <article
                 key={project.id}
-                className={`portfolio-project ${
+                className={`portfolio-project group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 ${
                   index === 1 ? "order-1 md:order-2" : ""
                 }`}
               >
                 <div
-                  className={`portfolio-image w-full h-auto ${
+                  className={`portfolio-image relative aspect-[16/9] overflow-hidden ${
                     index === 1 ? "order-1 md:order-2" : ""
                   }`}
                 >
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="rounded-lg shadow-lg w-full"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-90" />
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1 text-xs font-medium text-gray-100 ring-1 ring-white/10">
+                    <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+                    {project.category}
+                  </div>
                 </div>
                 <div
-                  className={`portfolio-text flex flex-col justify-center ${
+                  className={`portfolio-text p-6 md:p-7 ${
                     index === 1 ? "order-2 md:order-1" : ""
                   }`}
                 >
-                  <p className="text-sm text-gray-400 mb-2">
-                    {project.category}
-                  </p>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
                     {project.title}
                   </h2>
-                  <p className="text-gray-300 mb-6">{project.description}</p>
-                  <a target="_blank" href={project.liveDemo} className="font-medium text-gray-200 hover:text-white group flex items-center">
-                    See More
-                    <span className="material-icons-outlined ml-1 transform group-hover:translate-x-1 transition-transform">
-                      arrow_forward
-                    </span>
-                  </a>
+                  <p className="text-gray-300/90 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                      <span className="rounded-full border border-white/10 px-2 py-1 bg-white/5">
+                        MERN
+                      </span>
+                      <span className="rounded-full border border-white/10 px-2 py-1 bg-white/5">
+                        Tailwind
+                      </span>
+                    </div>
+                    <a
+                      target="_blank"
+                      href={project.liveDemo}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-primary/90 px-4 py-2 font-semibold text-gray-900 hover:bg-primary transition-colors"
+                    >
+                      See More
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                        />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -222,4 +245,4 @@ export function PortfolioSection({ projects }) {
   );
 }
 
-export default PortfolioSection; //make it more beautifully designed card and implement a see more button which is worked also .make it more designed but same color theme 
+export default PortfolioSection; //make it more beautifully designed card and implement a see more button which is worked also .make it more designed but same color theme
