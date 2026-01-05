@@ -7,6 +7,7 @@ import { PortfolioSection, portfolioLoader } from "./Portfolio";
 import Skills from "./Skills";
 import Contact from "./Contact";
 import { Link } from "react-router-dom";
+import Social from "./Social";
 
 function TypingText({ text, speed = 120, pause = 1200 }) {
   const [displayed, setDisplayed] = useState("");
@@ -78,6 +79,7 @@ function Home() {
   }, []);
 
   const links = [
+    { label: "Social", href: "#social" },
     { label: "About me", href: "#about" },
     { label: "Service", href: "#services" },
     { label: "Projects", href: "#portfolio" },
@@ -195,6 +197,7 @@ function Home() {
           </div>
         </div>
       </main>
+
       <footer className="bg-primary py-6 px-8">
         <div className="max-w-7xl mx-auto">
           {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
@@ -218,6 +221,10 @@ function Home() {
           </div> */}
         </div>
       </footer>
+
+            <section id="social">
+             <Social />
+      </section>
       <section id="about">
         <About />
       </section>

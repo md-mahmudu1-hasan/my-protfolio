@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Social from "./Social";
 
 export function portfolioLoader() {
   return [
@@ -145,6 +146,8 @@ export function PortfolioSection({ projects }) {
             </div>
           </div>
 
+
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16">
             {projects.map((project, index) => (
               <div
@@ -219,4 +222,4 @@ export function PortfolioSection({ projects }) {
   );
 }
 
-export default PortfolioSection;
+export default PortfolioSection; //make it more beautifully designed card and implement a see more button which is worked also .make it more designed but same color theme 
