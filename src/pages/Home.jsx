@@ -3,11 +3,10 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import About from "./About";
 import Services from "./Services";
-import { PortfolioSection, portfolioLoader } from "./Portfolio";
 import Skills from "./Skills";
 import Contact from "./Contact";
-import { Link } from "react-router-dom";
 import Social from "./Social";
+import PortfolioSection from "./Portfolio";
 
 function TypingText({ text, speed = 120, pause = 1200 }) {
   const [displayed, setDisplayed] = useState("");
@@ -232,7 +231,7 @@ function Home() {
         <Services />
       </section>
       <section id="portfolio">
-        <PortfolioSection projects={portfolioLoader()} />
+        <PortfolioSection />
       </section>
       <section id="skills">
         <Skills />
