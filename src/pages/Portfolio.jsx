@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 export default function PortfolioSection() {
   const rootRef = useRef(null);
@@ -58,11 +59,7 @@ export default function PortfolioSection() {
   }, [projects, currentPage]);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400">
-        Loading projects...
-      </div>
-    );
+    return <Loader></Loader>
   }
 
   if (isError) {

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Loader from "./Loader";
 
 const Badge = ({ children }) => {
   return (
@@ -32,7 +33,7 @@ const ProjectDetails = () => {
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader></Loader>
   }
 
   if (isError) {
