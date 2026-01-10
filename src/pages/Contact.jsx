@@ -226,7 +226,7 @@ function Contact() {
         <div className="container mx-auto px-4 sm:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
             <p className="text-sm text-gray-100">
-              &copy; 2024 All Rights Reserved | Md Mahmudul Hasan
+              &copy; {new Date().getFullYear()} All Rights Reserved | Md Mahmudul Hasan
             </p>
             <div className="flex items-center space-x-4">
               {socialLinks.map(({ icon: Icon, url }, idx) => (
