@@ -1,148 +1,179 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const skills = {
-  Frontend: [
-    {
-      name: "HTML5",
-      level: 95,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-    },
-    {
-      name: "CSS3",
-      level: 90,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    },
-    {
-      name: "JavaScript",
-      level: 88,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    },
-    {
-      name: "React",
-      level: 85,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-    },
-    {
-      name: "Next.js",
-      level: 78,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-    },
-    {
-      name: "Tailwind CSS",
-      level: 92,
-      logo: "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
-    },
-  ],
+const skillCategories = [
+  {
+    title: "Frontend",
+    skills: [
+      {
+        name: "ReactJS",
+        logo: "https://cdn.iconscout.com/icon/free/png-256/free-react-1-282599.png",
+      },
+      {
+        name: "HTML5",
+        logo: "https://cdn.iconscout.com/icon/free/png-256/free-html-5-1-1175208.png",
+      },
+      {
+        name: "CSS3",
+        logo: "https://cdn.iconscout.com/icon/free/png-256/free-css3-11-1175239.png",
+      },
+      {
+        name: "Tailwind CSS",
+        logo: "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
+      },
+      { name: "Next.js",
+         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+      {
+        name: "JavaScript",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+      },
+    ],
+  },
+  {
+    title: "Backend",
+    skills: [
+      {
+        name: "NodeJS",
+        logo: "https://cdn.iconscout.com/icon/free/png-256/free-node-js-1174925.png",
+      },
+      {
+        name: "ExpressJS",
+        logo: "https://img.icons8.com/color/48/express-js.png",
+      },
+      {
+        name: "MongoDB",
+        logo: "https://cdn.iconscout.com/icon/free/png-256/free-mongodb-5-1175140.png",
+      },
+      {
+        name: "Firebase",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+      },
+    ],
+  },
+  {
+    title: "Tools & Others",
+    skills: [
+      {
+        name: "Git",
+        logo: "https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png",
+      },
+      {
+        name: "GitHub",
+        logo: "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+      },
+      {
+        name: "VS Code",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg",
+      },
+      {
+        name: "Figma",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
+      },
+    ],
+  },
+];
 
-  Backend: [
-    {
-      name: "Node.js",
-      level: 30,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-    },
-    {
-      name: "Express.js",
-      level: 80,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-    },
-    {
-      name: "MongoDB Atlas",
-      level: 82,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-    },
-    {
-      name: "Firebase",
-      level: 80,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-    },
-  ],
+function Skills() {
+  const sectionRef = useRef(null);
 
-  Tools: [
-    {
-      name: "Git",
-      level: 85,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-    },
-    {
-      name: "Figma",
-      level: 30,
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-    },
-  ],
-};
-
-export default function Skills() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.utils.toArray(".progress-bar").forEach((bar) => {
-      gsap.to(bar, {
-        width: bar.dataset.level + "%",
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: bar,
-          start: "top 85%",
+    const ctx = gsap.context(() => {
+      // Section Title Animation
+      gsap.fromTo(
+        ".skills-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+          },
         },
+      );
+
+      // Category Groups Animation
+      skillCategories.forEach((_, index) => {
+        gsap.fromTo(
+          `.skill-category-${index}`,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: index * 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: `.skill-category-${index}`,
+              start: "top 85%",
+            },
+          },
+        );
       });
-    });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section className="min-h-screen px-6 py-20 bg-background-light font-display text-primary">
-      <div className="max-w-5xl mx-auto space-y-16">
-
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="inline-block text-lg font-semibold tracking-widest border-2 border-primary dark:border-gray-500 px-8 py-3">
-            SKILLS
-          </h1>
+    <section
+      ref={sectionRef}
+      className="bg-background-light dark:bg-background-dark py-24 px-4 sm:px-6 relative overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="skills-header text-center mb-20">
+          <p className="text-sm font-bold tracking-[0.3em] text-primary uppercase mb-3">
+            Expertise
+          </p>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+            My Tech Stack
+          </h2>
         </div>
 
-        {/* Categories */}
-        {Object.entries(skills).map(([category, items]) => (
-          <div key={category}>
-            <h2 className="mb-6 text-sm font-bold tracking-[0.3em] text-center">
-              {category}
-              <span className="block mx-auto mt-2 h-[2px] w-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" />
-            </h2>
+        <div className="space-y-16">
+          {skillCategories.map((category, idx) => (
+            <div key={idx} className={`skill-category-${idx}`}>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="h-px bg-white/10 flex-grow max-w-[50px] md:max-w-[100px]" />
+                <h3 className="text-xl md:text-2xl font-bold text-gray-200 uppercase tracking-widest">
+                  {category.title}
+                </h3>
+                <div className="h-px bg-white/10 flex-grow" />
+              </div>
 
-            <div className="space-y-5">
-              {items.map((skill) => (
-                <div
-                  key={skill.name}
-                  className="bg-white/10 dark:bg-gray-900/40 backdrop-blur border border-white/10 dark:border-gray-700/40 rounded-xl p-4"
-                >
-                  <div className="flex items-center gap-4 mb-2">
-                    <img
-                      src={skill.logo}
-                      alt={skill.name}
-                      className="h-7 w-7 object-contain"
-                    />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                {category.skills.map((skill, sIdx) => (
+                  <div
+                    key={sIdx}
+                    className="group relative bg-white/5 border border-white/5 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:bg-white/10 hover:border-primary/20 hover:-translate-y-1"
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
 
-                    <span className="text-sm font-semibold">
+                    <div className="h-12 w-12 md:h-14 md:w-14 relative grayscale group-hover:grayscale-0 transition-all duration-300">
+                      <img
+                        src={skill.logo}
+                        alt={skill.name}
+                        className="w-full h-full object-contain drop-shadow-lg"
+                      />
+                    </div>
+
+                    <p className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors">
                       {skill.name}
-                    </span>
-
-                    <span className="ml-auto text-xs font-semibold text-cyan-500">
-                      {skill.level}%
-                    </span>
+                    </p>
                   </div>
-
-                  <div className="h-2 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
-                    <div
-                      className="progress-bar h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
-                      data-level={skill.level}
-                    />
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
 }
+
+export default Skills;

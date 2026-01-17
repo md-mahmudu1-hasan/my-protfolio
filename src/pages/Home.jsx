@@ -44,6 +44,14 @@ function TypingText({ text, speed = 120, pause = 1200 }) {
 function Home() {
   const rootRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -57,20 +65,20 @@ function Home() {
 
       tl.fromTo(
         ".home-hero-title",
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
       )
         .fromTo(
           ".home-hero-subtitle",
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-          "<0.1"
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+          "-=0.5",
         )
         .fromTo(
           ".home-hero-cta",
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-          "<0.1"
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+          "-=0.3",
         );
     }, rootRef);
 
@@ -87,50 +95,60 @@ function Home() {
   ];
 
   return (
-    <div ref={rootRef} className="min-h-screen flex flex-col">
-      <header className="fixed top-0 left-0 w-full z-50 border-b border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="text-xl font-bold text-primary">
-            Home
+    <div
+      ref={rootRef}
+      className="min-h-screen flex flex-col bg-background-dark font-body selection:bg-primary/30"
+    >
+      {/* Navbar */}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b border-white/5 ${
+          scrolled
+            ? "bg-background-dark/80 backdrop-blur-md py-3 shadow-lg"
+            : "bg-transparent py-5"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <a
+            href="/"
+            className="text-2xl font-display font-bold text-white tracking-tight"
+          >
+            Mahmudul<span className="text-primary">.</span>
           </a>
 
-          {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+          <nav className="hidden md:flex items-center gap-8">
             {links.map((link, idx) => (
               <a
                 key={idx}
                 href={link.href}
-                className="text-primary hover:text-white transition-colors"
+                className="text-sm font-medium text-gray-400 hover:text-white transition-colors relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </a>
             ))}
           </nav>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-primary focus:outline-none"
+              className="text-white focus:outline-none p-2"
             >
-              <span className="material-icons-outlined">
+              <span className="material-icons-outlined text-2xl">
                 {isOpen ? "close" : "menu"}
               </span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden bg-background-light dark:bg-background-dark border-t border-white/10">
-            <div className="px-4 py-2 flex flex-col gap-4">
+          <div className="md:hidden bg-background-dark/95 backdrop-blur-xl border-t border-white/10 absolute w-full">
+            <div className="px-6 py-4 flex flex-col gap-4">
               {links.map((link, idx) => (
                 <a
                   key={idx}
                   href={link.href}
-                  className="text-primary hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)} // click korle menu close hobe
+                  className="text-lg text-gray-300 hover:text-white font-medium"
+                  onClick={() => setIsOpen(false)}
                 >
                   {link.label}
                 </a>
@@ -139,57 +157,89 @@ function Home() {
           </div>
         )}
       </header>
-      <main className="flex-grow grid grid-cols-12 gap-0">
-        <div className="col-span-12 lg:col-span-4 bg-background-light dark:bg-background-dark flex flex-col justify-between p-8 md:p-12">
-          <div className="flex-grow flex flex-col justify-center py-12">
-            <h1
-              id="/"
-              className="home-hero-title text-7xl md:text-8xl font-bold text-white"
-            >
-              Hello.
+
+      {/* Hero Section */}
+      <main className="flex-grow min-h-screen pt-20 grid grid-cols-1 lg:grid-cols-12 gap-0 relative overflow-hidden">
+        {/* Ambient Background */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] opacity-40 animate-pulse-slow" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/20 rounded-full blur-[120px] opacity-40 animate-pulse-slow" />
+        </div>
+
+        {/* Text Column */}
+        <div className="lg:col-span-4 flex flex-col justify-center p-8 md:p-16 lg:pl-20 z-10 order-2 lg:order-1">
+          <div className="space-y-6">
+            <h1 className="home-hero-title text-6xl md:text-8xl font-display font-bold text-white leading-none tracking-tighter">
+              Hello<span className="text-primary">.</span>
             </h1>
-            <div className="flex items-center mt-6">
-              <div className="w-16 h-0.5 bg-primary" />
-              <p className="home-hero-subtitle ml-4 text-xl font-medium text-primary">
-                <TypingText text="I am Md Mahmudul Hasan" />
-              </p>
+
+            <div className="flex items-center gap-4 home-hero-subtitle">
+              <div className="h-[1px] w-12 bg-primary/50" />
+              <div className="text-xl md:text-2xl font-light text-primary-light">
+                <TypingText text="I am Md Mahmudul Hasan" speed={80} />
+              </div>
             </div>
-            <p className="home-hero-subtitle mt-2 text-lg text-[#e0e0e0]">
+
+            <p className="home-hero-subtitle text-lg text-gray-400 max-w-md leading-relaxed">
               MERN Stack Developer
             </p>
-            <a
-              href="/MdMahmudulHasanCV.pdf"
-              download="MdMahmudulHasanCV.pdf"
-              className="home-hero-cta mt-10 bg-primary text-[#0b2e31] font-semibold py-3 px-6 rounded-lg w-fit flex items-center space-x-2 hover:opacity-90 transition-opacity"
-            >
-              <span className="material-icons-outlined text-xl">download</span>
-              <span>Download CV</span>
-            </a>
+
+            <div className="home-hero-cta pt-6">
+              <a
+                href="/MdMahmudulHasanCV.pdf"
+                download="MdMahmudulHasanCV.pdf"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary text-background-dark font-bold rounded-full overflow-hidden transition-all hover:pr-10 hover:shadow-[0_0_20px_rgba(212,187,164,0.4)]"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <span className="material-icons-outlined relative z-10 transition-transform group-hover:rotate-180">
+                  download
+                </span>
+                <span className="relative z-10">Download CV</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-4 bg-primary flex flex-col items-center justify-between pt-8 md:pt-12">
-          <h2 className="text-2xl font-bold text-[#0b2e31] pt-10">Mahmudul</h2>
-          <div className="w-full flex-grow flex items-end">
+        {/* Image Column */}
+        <div className="lg:col-span-4 relative z-10 flex items-end justify-center bg-gradient-to-t from-background-dark via-background-light/50 to-transparent order-1 lg:order-2 h-[50vh] lg:h-auto">
+          <div className="relative w-full h-full max-w-md mx-auto flex items-end">
+            {/* Glow effect behind image */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[60%] bg-gradient-to-t from-primary/30 to-transparent blur-3xl opacity-60" />
+
             <img
               src="https://i.ibb.co.com/nNLcpWM5/aiease-1760716831413.png"
-              alt="Portrait of James Barnes, a professional graphic designer, smiling with his arms crossed."
-              className="w-full h-auto object-cover"
+              alt="Md Mahmudul Hasan"
+              className="w-full h-auto object-contain relative z-10 drop-shadow-2xl mask-image-b"
+              style={{
+                maskImage:
+                  "linear-gradient(to bottom, black 80%, transparent 100%)",
+              }}
             />
+          </div>
+          <div className="absolute bottom-10 left-0 w-full text-center z-20">
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-white/10 tracking-widest uppercase select-none">
+              Mahmudul
+            </h2>
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-4 bg-background-light dark:bg-background-dark flex flex-col justify-between p-8 md:p-12">
-          <div className="flex-grow flex flex-col justify-center py-12">
-            <p className="text-[#e0e0e0] leading-relaxed max-w-sm">
-              I am a MERN Stack Developer. My specialty lies in building
-              full-stack scalable web applications. I focus on writing clean,
-              optimized code and designing system architectures that align with
-              the company's technical goals.
+        {/* Intro Column */}
+        <div className="lg:col-span-4 flex flex-col justify-center p-8 md:p-16 lg:pr-20 z-10 order-3 text-right lg:text-left">
+          <div className="glass p-8 rounded-2xl md:bg-transparent md:p-0 md:glass-none border-none">
+            <p className="text-gray-300 leading-relaxed text-lg font-light home-hero-subtitle">
+              I am a{" "}
+              <span className="text-white font-medium">
+                MERN Stack Developer
+              </span>
+              . My specialty lies in building full-stack scalable web
+              applications. I focus on writing clean, optimized code and
+              designing system architectures that align with the company's
+              technical goals.
             </p>
-            <button className="mt-10 text-xl font-medium text-primary flex items-center space-x-3 group w-fit">
+
+            <button className="mt-8 group inline-flex items-center gap-2 text-primary font-medium text-lg hover:text-white transition-colors home-hero-cta ml-auto lg:ml-0">
               <a href="#contact">Lets Talk</a>
-              <span className="material-icons-outlined transition-transform group-hover:translate-x-1">
+              <span className="material-icons-outlined transition-transform duration-300 group-hover:translate-x-1">
                 arrow_forward
               </span>
             </button>
@@ -197,48 +247,31 @@ function Home() {
         </div>
       </main>
 
-      <footer className="bg-primary py-6 px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <img
-                key={i}
-                className="h-6 object-contain filter grayscale opacity-70"
-                alt={`Company logo ${i}`}
-                src={
-                  [
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuAGOW46jcLHMitmfuphDPokNwZN4KlnTwxJXyonXFVtFDSW47yLiH7hZJ6UHXvwoOfj5IvuRXOv-sl_fuYHoHp-eLqtFoBBxHeAoNWiVlyE5gy3_IfQmEwIZ5SSPM_BrBA56S-N9jfp--qrGY3U3ssbo-r5AM0oulNID4MR8f72hjMbP_KEumfc9krEmxn4u6SvZsJNc70TzxOhZMRQLsJyjdyxphYN8wtf63Hx7H1lzzdIxlQZXYMy-yDujKMNKfO7Vl9AICy0zTrD",
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuBCrLqt78aBEkxAdDwPg03jpmouUB1wBBko5PeU9fRSsFFN38rGuUs9NstZc72cLmz7YHtYxI4qwa0fm__WMJ9PgfRW83ke214Q2mVUex0wt4-Za8ZMLGAOIWMxc9CI6Pn9GtI7BAYUkFT_K2pLfag0cJyQIkVHaNSW54YB-Yei1P3d2iiJ5GyakLiT7yt8YYbOeshYijpvdmqHXBvNYwH4_55NPBYTYHapVZlS3dRBGGrcq7zxiZJe4MZHywhNOCd1zS5Ajq0Jh8a7",
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuBryyxDsHucBvYSC5UIbUhXDH0zXJzQC2NXvz4iYIWkqMjjPjfhUVPNRmytNtAuEPP554bLXyeDPuv7bsFVKjSXRzRnKsxiGKcr3PDStNRU2RBiEGN30B4RxkUlRquhJEmJo1JD0SKBkk_SWCPrbeHjEJWOOouH7KAY-JbmLqvYfD616rb4Re8hDj7gXIuId_jnif6cNcBQ0d15U1eIgaUgpK4jbMkvFFCj3eJoK2PxoU1vcf4P7r8s-QtztWByzoH4Ff2lakU0XByD",
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuCi4T3k5e_KA7hHVPrVvrFUTvCZiZvVECoHI0CJcRwLzs5DYflWSTXTYb3IqVBhpq8IdP37NhDBlFFCewHDr389-mHcw8GBaOoJdh-GAw12ewZdQTXQPCV0wuZzZ7nWuHFsX1PQsHfaLTk9o0fI2r5HXcZAevbCoZJrHt5HcH53vY7MB5rKfBGp-fSCeDNst96luVsvT3OIwLeEc8blZkNSmzCCSVluNfAGP6Hvb2JLQ0PjrSsBSSPicXz-hzcEQNQPXorEBD77_Hx0",
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuBn_-sRZlDpnMtItmKddNdvQ3AdVTfJoXAK5Jz8sQYD7TMuo7Ul_WJJgLLhwdRXQCrW2UBm9rqFz-WUjlt_hiCPqb3Z5Xc5yFKzW6-palGjHXpze1uzvQVoRuYaux9c4FytcvuYeUjbOR_rf5kj7wLIm2fV0c0EgzL4bPxpu6hxPv7-6Dt6TXjwGVSJqefib6IsQXNoWs7g9bzNVMUd3q6t_ZAgIxhT2sCVv3pMdaWjW3nG6t58cPeEBPnxZWaaaInnUPYbZQVO765i",
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuDkjlc4SvP3CX0ULzXl3g50G0k2gER6hQDLJUru2-MPgFo1LsRQ_vHPoQ2HrQOLpkYRHWTT4zjrJha22XKrfxtAl1QeczbHz9G-ksek9isEo5mhNYrPd9ZMonM4sh-9zzVzNQM63v0-33v5-PVLeDgfBYCecf0Q6VVcZWREsQ3yQHcOqc1d8KjyPAIZON2ncf6NjynR6lf1Ix58b0VMksGX6ifBzMFm9p1I4T0ifNwFqZmVs6cpHzXqtVhxPi0QM2ZY-FU6zAHfAf8A",
-                  ][i - 1]
-                }
-              />
-            ))}
-          </div> */}
-        </div>
+      <footer className="hidden">
+        {/* Hiding original footer to replace with better section flow, or keep empty if handled by sections */}
       </footer>
 
-            <section id="social">
-             <Social />
-      </section>
-      <section id="about">
-        <About />
-      </section>
-      <section id="services">
-        <Services />
-      </section>
-      <section id="portfolio">
-        <PortfolioSection />
-      </section>
-      <section id="skills">
-        <Skills />
-      </section>
-      <section id="contact">
-        <Contact />
-      </section>
+      {/* Sections */}
+      <div className="relative z-10 space-y-0 bg-background-dark">
+        <section id="social" className="py-10 border-t border-white/5">
+          <Social />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="services">
+          <Services />
+        </section>
+        <section id="portfolio">
+          <PortfolioSection />
+        </section>
+        <section id="skills">
+          <Skills />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
+      </div>
     </div>
   );
 }

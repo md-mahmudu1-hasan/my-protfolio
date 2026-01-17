@@ -11,7 +11,7 @@ function Services() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         sectionRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
@@ -21,23 +21,23 @@ function Services() {
             trigger: sectionRef.current,
             start: "top 80%",
           },
-        }
+        },
       );
 
       gsap.fromTo(
         ".service-card",
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
           duration: 0.6,
-          ease: "power3.out",
           stagger: 0.1,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
           },
-        }
+        },
       );
     }, sectionRef);
 
@@ -47,57 +47,75 @@ function Services() {
   const items = [
     {
       id: 1,
-      title: "WEB DEVELOPMENT (MERN)",
+      title: "MERN Development",
       description:
-        "Full-stack web applications using MongoDB, Express.js, React, and Node.js, ensuring clean code, scalability, and performance.",
+        "Building scalable, full-stack web applications using MongoDB, Express.js, React, and Node.js. High-performance, secure, and maintainable code.",
+      icon: "code",
     },
     {
       id: 2,
-      title: "BACKEND DEVELOPMENT",
+      title: "Backend Engineering",
       description:
-        "Server-side development with Node.js, Express.js, and MongoDB, creating APIs, authentication, and database integration.",
+        "Robust server-side architecture with Node.js & Express. Designing RESTful APIs, implementing proper authentication, and database optimization.",
+      icon: "storage",
     },
     {
       id: 3,
-      title: "RESPONSIVE FRONTEND",
+      title: "Frontend Experience",
       description:
-        "Frontend development with React.js and Tailwind CSS, making modern, responsive, and dynamic user interfaces.",
+        "Crafting pixel-perfect, responsive user interfaces with React, Tailwind CSS, and Framer Motion for engaging user experiences.",
+      icon: "web",
     },
     {
       id: 4,
-      title: "FULL-STACK PROJECTS",
+      title: "Full-Stack Deployment",
       description:
-        "Building complete projects from frontend to backend, deploying them, and ensuring smooth functionality across platforms.",
+        "End-to-end development life cycle management, from architecture planning to deployment on cloud platforms and CI/CD integration.",
+      icon: "rocket_launch",
     },
   ];
 
   return (
     <section
       ref={sectionRef}
-      className="bg-background-light dark:bg-background-dark py-16 sm:py-24 min-h-screen"
+      className="bg-background-light dark:bg-background-dark py-24 px-4 sm:px-6 lg:px-8 relative"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-            SERVICE
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <p className="text-sm font-bold tracking-[0.2em] text-primary uppercase">
+            Services
           </p>
-          <h2 className="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-white">
-            What I Do ?
+          <h2 className="mt-3 text-4xl md:text-5xl font-display font-bold text-white tracking-tight">
+            What I Do
           </h2>
         </div>
-        <div className="mt-12 sm:mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {items.map((i, index) => (
             <div
               key={index}
-              className="service-card bg-gray-200/10 dark:bg-gray-800/30 rounded-lg p-6 flex flex-col"
+              className="service-card group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden"
             >
-              <span className="text-5xl font-bold text-primary">0{index}.</span>
-              <h3 className="mt-4 text-xl font-semibold text-gray-100">
-                {i.title}
-              </h3>
-              <p className="mt-2 text-sm text-gray-300">{i.description}</p>
-              <div className="mt-auto pt-6">
-                <div className="w-12 h-1 bg-primary rounded" />
+              {/* Hover Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 flex flex-col h-full">
+                <span className="text-6xl font-bold text-white/5 absolute -top-4 -right-4 group-hover:text-white/10 transition-colors">
+                  0{index + 1}
+                </span>
+
+                <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
+                  <span className="material-icons-outlined text-3xl">
+                    {i.icon || "star"}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                  {i.title}
+                </h3>
+                <p className="text-sm text-gray-400 leading-relaxed font-light">
+                  {i.description}
+                </p>
               </div>
             </div>
           ))}

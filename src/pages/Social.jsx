@@ -1,5 +1,11 @@
 import React from "react";
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGithub, FaWhatsapp } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaGithub,
+  FaWhatsapp,
+} from "react-icons/fa";
 
 function Social() {
   const socialLinks = [
@@ -7,62 +13,59 @@ function Social() {
       icon: FaLinkedinIn,
       url: "https://www.linkedin.com/in/md-mahmudul-hasan-85ba92366",
       title: "LinkedIn",
-      bg: "bg-gradient-to-br from-sky-500 to-sky-700",
-      color: "text-white",
+      bg: "bg-[#0077b5]",
     },
     {
       icon: FaGithub,
       url: "https://github.com/md-mahmudu1-hasan",
       title: "GitHub",
-      bg: "bg-gradient-to-br from-gray-700 to-gray-900",
-      color: "text-white",
+      bg: "bg-[#333]",
     },
     {
       icon: FaFacebookF,
       url: "https://www.facebook.com/md.mahmudul.hasan.694602",
       title: "Facebook",
-      bg: "bg-gradient-to-br from-blue-600 to-blue-800",
-      color: "text-white",
+      bg: "bg-[#1877f2]",
     },
     {
       icon: FaTwitter,
       url: "https://x.com/MDMahmudul93870",
       title: "Twitter",
-      bg: "bg-gradient-to-br from-cyan-400 to-blue-500",
-      color: "text-white",
+      bg: "bg-[#1da1f2]",
     },
     {
       icon: FaWhatsapp,
       url: "https://wa.me/8801522111746",
       title: "WhatsApp",
-      bg: "bg-gradient-to-br from-green-500 to-green-700",
-      color: "text-white",
+      bg: "bg-[#25d366]",
     },
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center my-20">
-      <div className="w-full max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <p className="text-sm font-semibold tracking-widest text-primary uppercase">
-            Connect with me
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold mt-2 text-gray-100">
-            Let's Connect
-          </h1>
-        </div>
+    <div className="py-20 border-b border-white/5">
+      <div className="text-center mb-10">
+        <p className="text-sm font-bold tracking-[0.2em] text-primary uppercase">
+          Network
+        </p>
+        <h2 className="mt-2 text-3xl font-display font-bold text-white">
+          Connect with Me
+        </h2>
       </div>
-      <div className="flex items-center gap-5">
-        {socialLinks.map(({ icon: Icon, url, title, bg, color }, idx) => (
+
+      <div className="flex flex-wrap items-center justify-center gap-6 px-4">
+        {socialLinks.map(({ icon: Icon, url, title, bg }, idx) => (
           <a
             key={idx}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
             title={title}
-            className={`w-12 h-12 flex items-center justify-center rounded-full ${bg} ${color} shadow-lg transition-transform duration-200 hover:scale-110`}
+            className={`group relative w-16 h-16 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 hover:border-transparent transition-all duration-300 hover:scale-110 overflow-hidden`}
           >
-            <Icon className="h-6 w-6" />
+            <div
+              className={`absolute inset-0 ${bg} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+            />
+            <Icon className="h-6 w-6 text-gray-300 group-hover:text-white relative z-10 transition-colors" />
           </a>
         ))}
       </div>
@@ -71,4 +74,3 @@ function Social() {
 }
 
 export default Social;
-export { Social };
