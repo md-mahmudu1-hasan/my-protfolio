@@ -5,25 +5,27 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
+import { Allprojects } from "../data/projects";
+
 
 export default function PortfolioSection() {
   const rootRef = useRef(null);
 
-  const fetchProjects = async () => {
-    const res = await axios.get(
-      "https://protfolio-backend-jet.vercel.app/projects",
-    );
-    return res.data;
-  };
+  // const fetchProjects = async () => {
+  //   const res = await axios.get(
+  //     "https://protfolio-backend-jet.vercel.app/projects",
+  //   );
+  //   return res.data;
+  // };
 
-  const {
-    data: projects = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
-  });
+  // const {
+  //   data: projects = [],
+  //   isLoading,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ["projects"],
+  //   queryFn: fetchProjects,
+  // });
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,64 +33,65 @@ export default function PortfolioSection() {
 
   const indexOfLast = currentPage * projectsPerPage;
   const indexOfFirst = indexOfLast - projectsPerPage;
-  const currentProjects = projects.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
+  // const currentProjects = projects.slice(indexOfFirst, indexOfLast);
+  const currentProjects = Allprojects.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(Allprojects.length / projectsPerPage);
 
-  useEffect(() => {
-    if (!projects.length) return;
+  // useEffect(() => {
+  //   if (!projects.length) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+  //   gsap.registerPlugin(ScrollTrigger);
 
-    const ctx = gsap.context(() => {
-      // Header Animation
-      gsap.fromTo(
-        ".portfolio-header",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: rootRef.current,
-            start: "top 80%",
-          },
-        },
-      );
+  //   const ctx = gsap.context(() => {
+  //     // Header Animation
+  //     gsap.fromTo(
+  //       ".portfolio-header",
+  //       { opacity: 0, y: 50 },
+  //       {
+  //         opacity: 1,
+  //         y: 0,
+  //         duration: 1,
+  //         ease: "power3.out",
+  //         scrollTrigger: {
+  //           trigger: rootRef.current,
+  //           start: "top 80%",
+  //         },
+  //       },
+  //     );
 
-      // Card Animation
-      gsap.fromTo(
-        ".portfolio-card",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          clearProps: "all", // Clear GSAP inline styles after animation to allow hover effects
-          scrollTrigger: {
-            trigger: ".portfolio-grid", // Trigger on grid container
-            start: "top 80%",
-          },
-        },
-      );
-    }, rootRef);
+  //     // Card Animation
+  //     gsap.fromTo(
+  //       ".portfolio-card",
+  //       { opacity: 0, y: 50 },
+  //       {
+  //         opacity: 1,
+  //         y: 0,
+  //         duration: 0.8,
+  //         stagger: 0.15,
+  //         ease: "power2.out",
+  //         clearProps: "all", // Clear GSAP inline styles after animation to allow hover effects
+  //         scrollTrigger: {
+  //           trigger: ".portfolio-grid", // Trigger on grid container
+  //           start: "top 80%",
+  //         },
+  //       },
+  //     );
+  //   }, rootRef);
 
-    return () => ctx.revert();
-  }, [projects, currentPage]);
+  //   return () => ctx.revert();
+  // }, [projects, currentPage]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
-  if (isError) {
-    return (
-      <div className="min-h-[50vh] flex items-center justify-center font-display text-red-400">
-        Failed to load projects
-      </div>
-    );
-  }
+  // if (isError) {
+  //   return (
+  //     <div className="min-h-[50vh] flex items-center justify-center font-display text-red-400">
+  //       Failed to load projects
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -136,7 +139,7 @@ export default function PortfolioSection() {
                   <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center gap-4">
                     <Link
                       to={`/${project._id}`}
-                      className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-background-dark font-bold hover:bg-primary transition-colors"
+                      className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-background-dark font-bold hover:bg-primary"
                     >
                       View Project
                     </Link>

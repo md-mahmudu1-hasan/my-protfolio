@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Allprojects } from "../data/projects";
 import Loader from "./Loader";
 
 const Badge = ({ children, variant = "default" }) => {
@@ -22,34 +21,17 @@ const Badge = ({ children, variant = "default" }) => {
 const ProjectDetails = () => {
   const { id } = useParams();
 
-  const fetchProjects = async () => {
-    const res = await axios.get(
-      `https://protfolio-backend-jet.vercel.app/projects/${id}`,
-    );
-    return res.data;
-  };
-
-  const {
-    data: project = {},
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["project", id],
-    queryFn: fetchProjects,
-  });
+  // Find the project from local data
+  const project = Allprojects.find(p => p._id === id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
+  if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background-dark text-red-400">
-        Failed to load project details.
+        Project not found.
       </div>
     );
   }
