@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Allprojects } from "../data/projects";
-import Loader from "./Loader";
+"use client";
+
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { Allprojects } from "../../data/projects";
 
 const Badge = ({ children, variant = "default" }) => {
   const styles =
@@ -22,7 +25,7 @@ const ProjectDetails = () => {
   const { id } = useParams();
 
   // Find the project from local data
-  const project = Allprojects.find(p => p._id === id);
+  const project = Allprojects.find((p) => p._id === id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -47,7 +50,7 @@ const ProjectDetails = () => {
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-background-dark/80 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link
-            to="/"
+            href="/"
             className="group inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition-all">
@@ -97,7 +100,7 @@ const ProjectDetails = () => {
                 href={project.liveDemo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-background-dark font-bold rounded-lg hover:bg-white hover:text-background-dark transition-all duration-300"
+                className="btn-primary"
               >
                 Live Demo
                 <svg
@@ -121,7 +124,7 @@ const ProjectDetails = () => {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                className="btn-secondary"
               >
                 GitHub
                 <svg
@@ -150,10 +153,12 @@ const ProjectDetails = () => {
             {/* Hero Image */}
             <div className="rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-sm">
               <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(min-width: 1024px) 66vw, 100vw"
+                  className="object-cover"
                 />
               </div>
             </div>

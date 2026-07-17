@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -28,11 +28,19 @@ export default {
         "2xl": "1.5rem",
         "3xl": "2rem",
       },
+      boxShadow: {
+        glow: "0 0 40px -8px rgba(212,187,164,0.45)",
+        "glow-lg": "0 0 90px -20px rgba(212,187,164,0.55)",
+        card: "0 20px 60px -20px rgba(0,0,0,0.5)",
+      },
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
         "fade-in-up": "fadeInUp 0.7s ease-out",
         float: "float 6s ease-in-out infinite",
+        "float-slow": "float 9s ease-in-out infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        shimmer: "shimmer 2s infinite",
+        marquee: "marquee 28s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -46,6 +54,14 @@ export default {
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-20px)" },
+        },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaFacebookF,
   FaTwitter,
@@ -6,6 +5,7 @@ import {
   FaGithub,
   FaWhatsapp,
 } from "react-icons/fa";
+import SectionHeading from "./ui/SectionHeading";
 
 function Social() {
   const socialLinks = [
@@ -43,14 +43,7 @@ function Social() {
 
   return (
     <div className="py-20 border-b border-white/5">
-      <div className="text-center mb-10">
-        <p className="text-sm font-bold tracking-[0.2em] text-primary uppercase">
-          Network
-        </p>
-        <h2 className="mt-2 text-3xl font-display font-bold text-white">
-          Connect with Me
-        </h2>
-      </div>
+      <SectionHeading eyebrow="Network" title="Connect with Me" className="mb-10" />
 
       <div className="flex flex-wrap items-center justify-center gap-6 px-4">
         {socialLinks.map(({ icon: Icon, url, title, bg }, idx) => (

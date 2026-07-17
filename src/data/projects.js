@@ -1,12 +1,12 @@
 export const Allprojects = [
     {
 "_id": "69ec8a45cf9773abc9d19ebb",
-"title": "SM Bazar – Clothing eCommerce Platform",
+"title": "AS Everything Shop – Clothing eCommerce Platform",
 "shortDescription": "A modern clothing eCommerce web app with real-time order notifications and smart product management.",
 "category": "MERN Stack Project",
-"description": "SM Bazar is a full-featured online clothing store where users can browse products, add to cart, and place orders easily. It includes a real-time email notification system using Nodemailer, backend search for fast product discovery, and a review & rating system for user engagement. Admins can manage products and orders efficiently.",
+"description": "AS Everything Shop is a full-featured online clothing store where users can browse products, add to cart, and place orders easily. It includes a real-time email notification system using Nodemailer, backend search for fast product discovery, and a review & rating system for user engagement. Admins can manage products and orders efficiently.",
 "image": "https://i.ibb.co.com/MytVX14H/eclectic-capybara-c592e8-netlify-app-1.png",
-"liveDemo": "https://eclectic-capybara-c592e8.netlify.app/",
+"liveDemo": "https://aseverythingshop.netlify.app/",
 "technology": "MERN",
 "language": "React, Node.js, Express.js",
 "packagesUsed": {
