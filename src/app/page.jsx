@@ -266,18 +266,21 @@ function Home() {
         <div className="lg:col-span-4 flex flex-col justify-center p-8 md:p-16 lg:pl-20 z-10 order-2 lg:order-1">
           <div className="space-y-6">
             <h1 className="home-hero-title text-6xl md:text-8xl font-display font-bold text-white leading-none tracking-tighter">
-              Hello<span className="text-primary">.</span>
+              Md Mahmudul Hasan
             </h1>
 
             <div className="flex items-center gap-4 home-hero-subtitle">
-              <div className="h-[1px] w-12 bg-primary/50" />
+              <div className="h-[1px] w-16 bg-primary/50" />
               <div className="text-xl md:text-2xl font-light text-primary-light">
-                <TypingText text="I am Md Mahmudul Hasan" speed={80} />
+                <TypingText
+                  text="Full Stack Web Developer | MERN | Next.js | Odoo ERP | Software Engineer Intern"
+                  speed={70}
+                />
               </div>
             </div>
 
             <p className="home-hero-subtitle text-lg text-gray-400 max-w-md leading-relaxed">
-              Web Developer
+              software engineer building modern web applications, responsive UI, and business-ready ERP solutions.
             </p>
 
             <div className="home-hero-cta pt-6 flex flex-wrap gap-4">

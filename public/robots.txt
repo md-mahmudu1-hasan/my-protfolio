@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: https://mdmahmudulhasan.me/sitemap.xml
+Host: https://mdmahmudulhasan.me

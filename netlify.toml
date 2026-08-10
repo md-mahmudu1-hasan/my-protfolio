@@ -4,3 +4,10 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/*"
+  to = "https://mdmahmudulhasan.me/:splat"
+  status = 301
+  force = true
+  conditions = { Host = ["mahmudulhasanprotfolio.netlify.app"] }
