@@ -5,7 +5,7 @@ It showcases your latest projects with a portfolio grid, pagination, and a dedic
 
 ## Live / Preview
 
-- **Local dev**: https://mahmudulhasanprotfolio.netlify.app/
+- **Local dev**: https://mdmahmudulhasan
 
 ## Features
 
