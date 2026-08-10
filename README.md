@@ -5,7 +5,7 @@ It showcases your latest projects with a portfolio grid, pagination, and a dedic
 
 ## Live / Preview
 
-- **Local dev**: https://mdmahmudulhasan
+- **Local dev**: https://mdmahmudulhasan.me/
 
 ## Features
 
