@@ -1,13 +1,13 @@
 [build]
-  command = "npm run build"
-  publish = ".next"
+command = "npm run build"
+publish = ".next"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
+package = "@netlify/plugin-nextjs"
 
 [[redirects]]
-  from = "/*"
-  to = "https://mdmahmudulhasan.me/:splat"
-  status = 301
-  force = true
-  conditions = { Host = ["mahmudulhasanprotfolio.netlify.app"] }
+from = "/*"
+to = "https://mdmahmudulhasan.me/:splat"
+status = 301
+force = true
+conditions = { Host = ["mahmudulhasanprotfolio.netlify.app"] }
