@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -20,10 +17,6 @@ const Badge = ({ children, variant = "default" }) => {
 };
 
 const ProjectDetailsClient = ({ project }) => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [project._id]);
-
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark font-body text-gray-200 selection:bg-primary/30">
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">

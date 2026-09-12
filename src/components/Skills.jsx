@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import SectionHeading from "./ui/SectionHeading";
 
@@ -119,46 +114,8 @@ function SkillLogo({ skill, sizeClass = "h-12 w-12 md:h-14 md:w-14" }) {
 }
 
 function Skills() {
-  const sectionRef = useRef(null);
-  const [activeTab, setActiveTab] = useState(0);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".skills-header",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-          },
-        },
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".skill-tile",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power2.out" },
-      );
-    }, sectionRef);
-    return () => ctx.revert();
-  }, [activeTab]);
-
   return (
     <section
-      ref={sectionRef}
       className="bg-background-light dark:bg-background-dark py-16 sm:py-20 lg:py-24 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -191,33 +148,24 @@ function Skills() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-14">
-          {skillCategories.map((category, idx) => (
-            <button
-              key={category.title}
-              onClick={() => setActiveTab(idx)}
-              className={`chip ${activeTab === idx ? "chip-active" : ""}`}
-            >
-              {category.title}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
-          {skillCategories[activeTab].skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="skill-tile group relative w-[calc(50%-0.625rem)] sm:w-40 lg:w-44 bg-white/5 border border-white/5 rounded-2xl p-5 sm:p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:bg-white/10 hover:border-primary/20 hover:-translate-y-1"
-            >
-              <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-
-              <SkillLogo skill={skill} />
-
-              <p className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors">
-                {skill.name}
-              </p>
-            </div>
+        <div className="space-y-14">
+          {skillCategories.map((category) => (
+            <section key={category.title} aria-labelledby={`skills-${category.title}`}>
+              <h3 id={`skills-${category.title}`} className="mb-6 text-center text-xl font-display font-semibold text-primary">
+                {category.title}
+              </h3>
+              <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
+                {category.skills.map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="skill-tile group relative w-[calc(50%-0.625rem)] sm:w-40 lg:w-44 bg-white/5 border border-white/5 rounded-2xl p-5 sm:p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:bg-white/10 hover:border-primary/20 hover:-translate-y-1"
+                  >
+                    <SkillLogo skill={skill} />
+                    <p className="text-sm font-medium text-gray-400 group-hover:text-white transition-colors">{skill.name}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       </div>

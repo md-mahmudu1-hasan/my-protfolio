@@ -1,6 +1,3 @@
-"use client";
-
-import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SectionHeading from "./ui/SectionHeading";
@@ -10,28 +7,11 @@ const CATEGORIES = ["All", ...new Set(Allprojects.map((p) => p.category))];
 const PROJECTS_PER_PAGE = 5;
 
 export default function PortfolioSection() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const filteredProjects = useMemo(
-    () =>
-      activeCategory === "All"
-        ? Allprojects
-        : Allprojects.filter((p) => p.category === activeCategory),
-    [activeCategory],
-  );
-
-  const indexOfLast = currentPage * PROJECTS_PER_PAGE;
-  const indexOfFirst = indexOfLast - PROJECTS_PER_PAGE;
-  const currentProjects = filteredProjects.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
+  const currentProjects = Allprojects;
+  const filteredProjects = Allprojects;
+  const totalPages = 1;
 
   const [featured, ...rest] = currentProjects;
-
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category);
-    setCurrentPage(1);
-  };
 
   return (
     <div className="bg-background-light dark:bg-background-dark font-display relative overflow-hidden">
@@ -46,13 +26,12 @@ export default function PortfolioSection() {
           {/* Category filter chips */}
           <div className="no-scrollbar -mx-6 mb-12 sm:mb-16 flex items-center gap-3 overflow-x-auto px-6 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0">
             {CATEGORIES.map((category) => (
-              <button
+              <span
                 key={category}
-                onClick={() => handleCategoryChange(category)}
-                className={`chip shrink-0 ${activeCategory === category ? "chip-active" : ""}`}
+                className={`chip shrink-0 ${category === "All" ? "chip-active" : ""}`}
               >
                 {category}
-              </button>
+              </span>
             ))}
           </div>
 
@@ -213,20 +192,12 @@ export default function PortfolioSection() {
           {totalPages > 1 && (
             <div className="flex justify-center mt-20 gap-2">
               {[...Array(totalPages)].map((_, idx) => (
-                <button
+                <span
                   key={idx}
-                  onClick={() => setCurrentPage(idx + 1)}
-                  className={`relative w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                    currentPage === idx + 1
-                      ? "bg-primary text-background-dark shadow-glow scale-110"
-                      : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                  }`}
+                  className="relative w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold bg-primary text-background-dark shadow-glow"
                 >
                   {idx + 1}
-                  {currentPage === idx + 1 && (
-                    <span className="absolute inset-0 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-background-dark animate-pulse-slow" />
-                  )}
-                </button>
+                </span>
               ))}
             </div>
           )}

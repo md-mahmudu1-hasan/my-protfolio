@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import About from "../components/About";
 import Services from "../components/Services";
@@ -28,140 +23,15 @@ const HERO_STATS = [
   { value: "MERN", label: "Core Stack" },
 ];
 
-function TypingText({ text, speed = 120, pause = 1200 }) {
-  const [displayed, setDisplayed] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    let cancelled = false;
-
-    function type() {
-      if (cancelled) return;
-      if (index <= text.length) {
-        setDisplayed(text.slice(0, index));
-        index += 1;
-        setTimeout(type, speed);
-      } else {
-        setTimeout(() => {
-          if (cancelled) return;
-          index = 0;
-          setDisplayed("");
-          type();
-        }, pause);
-      }
-    }
-
-    type();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [text, speed, pause]);
-
-  return <>{displayed}</>;
-}
-
 function Home() {
-  const rootRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Scroll-spy: highlight the nav link for whichever section is centered in view
-  useEffect(() => {
-    const ids = NAV_LINKS.map((l) => l.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Close mobile drawer on Escape
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKey = (e) => e.key === "Escape" && setIsOpen(false);
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 80%",
-        },
-      });
-
-      tl.fromTo(
-        ".home-hero-title",
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1, ease: "power4.out" },
-      )
-        .fromTo(
-          ".home-hero-subtitle",
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-          "-=0.5",
-        )
-        .fromTo(
-          ".home-hero-cta",
-          { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
-          "-=0.3",
-        )
-        .fromTo(
-          ".home-hero-stat",
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.12,
-            ease: "power3.out",
-          },
-          "-=0.2",
-        );
-    }, rootRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <div
-      ref={rootRef}
+      id="top"
       className="min-h-screen flex flex-col bg-background-dark font-body selection:bg-primary/30"
     >
       {/* Navbar */}
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
-          scrolled
-            ? "bg-background-dark/80 backdrop-blur-md py-3 shadow-lg border-white/5"
-            : "bg-transparent py-5 border-transparent"
-        }`}
+        className="fixed top-0 left-0 w-full z-50 bg-background-dark/80 backdrop-blur-md py-4 shadow-lg border-b border-white/5"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <a
@@ -173,85 +43,33 @@ function Home() {
 
           <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.href.slice(1);
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors relative group ${
-                    isActive ? "text-white" : "text-gray-400 hover:text-white"
-                  }`}
+                  className="text-sm font-medium text-gray-400 hover:text-white transition-colors relative group"
                 >
                   {link.label}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all group-hover:w-full" />
                 </a>
               );
             })}
           </nav>
 
           <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(true)}
-              aria-label="Open menu"
-              className="text-white focus:outline-none p-2"
-            >
-              <span className="material-icons-outlined text-2xl">menu</span>
-            </button>
+            <details className="relative">
+              <summary className="list-none text-white focus:outline-none p-2 cursor-pointer" aria-label="Open menu">
+                <span className="material-icons-outlined text-2xl">menu</span>
+              </summary>
+              <nav className="absolute right-0 top-14 w-64 rounded-xl border border-white/10 bg-background-dark p-4 shadow-2xl">
+                <div className="flex flex-col gap-2">
+                  {NAV_LINKS.map((link) => <a key={link.href} href={link.href} className="py-3 text-gray-300 hover:text-primary">{link.label}</a>)}
+                </div>
+              </nav>
+            </details>
           </div>
         </div>
       </header>
-
-      {/* Mobile drawer */}
-      <div
-        className={`md:hidden fixed inset-0 z-[70] transition-opacity duration-300 ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        aria-hidden={!isOpen}
-      >
-        <div
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-          onClick={() => setIsOpen(false)}
-        />
-        <div
-          className={`absolute top-0 right-0 h-full w-[78%] max-w-xs bg-background-light border-l border-white/10 shadow-2xl transition-transform duration-500 ease-out ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
-          <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-            <span className="text-xl font-display font-bold text-white">
-              Mahmudul<span className="text-primary">.</span>
-            </span>
-            <button
-              onClick={() => setIsOpen(false)}
-              aria-label="Close menu"
-              className="text-white p-2"
-            >
-              <span className="material-icons-outlined text-2xl">close</span>
-            </button>
-          </div>
-          <div className="px-6 py-8 flex flex-col gap-2">
-            {NAV_LINKS.map((link, idx) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                style={{
-                  transitionDelay: isOpen ? `${idx * 60}ms` : "0ms",
-                }}
-                className={`text-lg text-gray-300 hover:text-primary hover:pl-2 font-medium py-3 border-b border-white/5 transition-all duration-300 ${
-                  isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Hero Section */}
       <main className="bg-noise flex-grow min-h-screen pt-20 grid grid-cols-1 lg:grid-cols-12 gap-0 relative overflow-hidden">
@@ -272,10 +90,7 @@ function Home() {
             <div className="flex items-center gap-4 home-hero-subtitle">
               <div className="h-[1px] w-16 bg-primary/50" />
               <div className="text-xl md:text-2xl font-light text-primary-light">
-                <TypingText
-                  text="Full Stack Web Developer | MERN | Next.js | Odoo ERP | Software Engineer Intern"
-                  speed={70}
-                />
+                Full Stack Web Developer | MERN | Next.js | Odoo ERP | Software Engineer Intern
               </div>
             </div>
 

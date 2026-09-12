@@ -34,7 +34,7 @@ export const metadata = {
     },
   },
   icons: {
-    icon: "https://lh3.googleusercontent.com/d/1Xb6XD--y6UmGc34p34VROHy2NLg0p6Vh",
+    icon: "/icon.png",
   },
   openGraph: {
     title: "Md Mahmudul Hasan | Full Stack Web Developer",

@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import {
   FaFacebookF,
@@ -11,8 +6,6 @@ import {
   FaYoutube,
   FaGithub,
 } from "react-icons/fa";
-import emailjs from "@emailjs/browser";
-import toast from "react-hot-toast";
 import SectionHeading from "./ui/SectionHeading";
 
 const socialLinks = [
@@ -51,58 +44,9 @@ function FloatingField({ as = "input", label, ...props }) {
 }
 
 function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const mainRef = useRef(null);
-  const form = useRef();
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        mainRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: mainRef.current,
-            start: "top 70%",
-          },
-        },
-      );
-    }, mainRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const sendEmail = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    emailjs
-      .sendForm("service_ru1dlxa", "template_nuhqa8r", form.current, {
-        publicKey: "E4JIp-bvc5Qz9nlED",
-      })
-      .then(
-        () => {
-          toast.success("Message sent successfully");
-          e.target.reset();
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
-          toast.error("Failed to send message");
-        },
-      )
-      .finally(() => setIsSubmitting(false));
-  };
-
   return (
     <div className="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col pt-10">
       <main
-        ref={mainRef}
         className="flex-grow flex items-center justify-center p-4 sm:p-8"
       >
         <div className="w-full max-w-6xl mx-auto rounded-[26px] bg-gradient-to-br from-primary/30 via-white/10 to-transparent p-[1px] shadow-card">
@@ -163,7 +107,12 @@ function Contact() {
                   </a>
                 </div>
 
-                <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                <form
+                  action="mailto:mdmahmudulhasan0008@gmail.com"
+                  method="post"
+                  encType="text/plain"
+                  className="space-y-6"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FloatingField id="name" name="name" label="Name" required />
                     <FloatingField
@@ -188,10 +137,9 @@ function Contact() {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="btn-primary w-full mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                    className="btn-primary w-full mt-4"
                   >
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    Send Message
                   </button>
                 </form>
               </div>
